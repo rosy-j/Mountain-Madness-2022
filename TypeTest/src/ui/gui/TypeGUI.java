@@ -54,22 +54,20 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
 
     public void parseTextArea() {
         String text = textArea.getText();
-        String speed = "speed";
-        String test = "test";
-        if(text.length()==0) {
-            correctWordCount = 0;
+        correctWordCount = 0;
+        if (text.length() == 0) {
             return;
         }
         String[] splitText = text.split("\\s+");
-        for(int i = 0; i < splitText.length; i++) {
-            if (i % 2 == 0) {
-                if (speed.equalsIgnoreCase(splitText[i])) {
-                    correctWordCount++;
-                }
-            } else {
-                if (test.equalsIgnoreCase(splitText[i])) {
-                    correctWordCount++;
-                }
+        //0 for speed, 1 for test
+        char currentState = 0;
+        for (int i = 0; i < splitText.length; i++) {
+            if (currentState == 0 && splitText[i].equalsIgnoreCase("speed")) {
+                correctWordCount++;
+                currentState = 1;
+            } else if (currentState == 1 && splitText[i].equalsIgnoreCase("test")){
+                correctWordCount++;
+                currentState = 0;
             }
         }
     }
@@ -90,7 +88,6 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
             case TYPING:
                 textArea.setText("");
                 textArea.setEditable(true);
-                correctWordCount = 0;
                 break;
             case FINISHED:
                 displayScore();
