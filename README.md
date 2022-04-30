@@ -5,7 +5,7 @@
 **Team Name:** Nerds in a Corner\
 **Group members:** Timothy Shyong (tjs14@sfu.ca)
                Martin Tesar (mta117@sfu.ca)
-               Rosy Jiang (imposter) <-- ubc student
+               Rosy Jiang (rosyj@student.ubc.ca) <-- sus ubc student :)
 
 **Brief Description:** Our ambiguous project is a speed test that tests how fast you can type the words speed test. At the end we output how many words per minute you can type.
 
