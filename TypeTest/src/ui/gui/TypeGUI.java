@@ -15,8 +15,6 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     public static final int WIDTH = 1000;
     private int correctWordCount = 0;
     private int wpm = 0;
-    private long startTime = System.currentTimeMillis();
-    private long elapsedTime = 0L;
     private JPanel typePanel;
     private JTextArea textArea;
     private JLabel label;
@@ -41,13 +39,13 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         setVisible(true);
     }
 
-    void Timer() {
-        while(elapsedTime < 60*1000) {
-            elapsedTime = System.currentTimeMillis() - startTime;
-        }
-        textArea.setEditable(false);
-        parseTextArea();
-        displayScore();
+    void timer() {
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.schedule(() -> {
+            textArea.setEditable(false);
+            parseTextArea();
+            setState(State.FINISHED);
+        }, 60, TimeUnit.SECONDS);
     }
 
     public void displayScore() {
@@ -90,8 +88,10 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
                 break;
             case TYPING:
                 textArea.setText("");
+                textArea.setEditable(true);
                 break;
             case FINISHED:
+                displayScore();
                 break;
         }
     }
@@ -120,8 +120,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
             }, 2, TimeUnit.SECONDS);
             executorService.schedule(() -> {
                 setState(State.TYPING);
-                startTime = System.currentTimeMillis();
-                Timer();
+                timer();
             }, 3, TimeUnit.SECONDS);
 
         });
@@ -145,19 +144,19 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         textArea.addKeyListener(this);
 //        textArea.setEditable(false);
         panel[1].add(textArea, BorderLayout.CENTER);
-        scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
-        panel[1].add(scoreLabel, BorderLayout.SOUTH);
         topLayerPanel.add(panel[1], State.TYPING.toString());
 
         panel[2] = new JPanel(new BorderLayout());
         JLabel labelThird = new JLabel("Results", SwingConstants.CENTER);
-        panel[2].add(labelThird, BorderLayout.CENTER);
+        panel[2].add(labelThird, BorderLayout.NORTH);
         JButton buttonGOGOGO = new JButton("Your time is TIME");
         buttonGOGOGO.addActionListener((e) -> {
             setState(State.PREPARING);
         });
         panel[2].add(buttonGOGOGO, BorderLayout.CENTER);
+        scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
+        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
+        panel[2].add(scoreLabel, BorderLayout.SOUTH);
         topLayerPanel.add(panel[2], State.FINISHED.toString());
 
         CardLayout cl = (CardLayout)(topLayerPanel.getLayout());
