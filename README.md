@@ -1,4 +1,6 @@
-# Mountain-Madness-2022
+# Mountain Madness 2022 Hackathon
+
+## Project Name: Typing Speed Test
 
 Team Name: Nerds in a Corner
 Group members: Timothy Shyong (tjs14@sfu.ca)
