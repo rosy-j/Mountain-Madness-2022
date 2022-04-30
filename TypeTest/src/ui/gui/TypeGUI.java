@@ -9,8 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class TypeGUI extends JFrame implements ActionListener, KeyListener {
-    public static final int HEIGHT = 1000;
-    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 500;
+    public static final int WIDTH = 500;
     private int correctWordCount = 0;
     private JButton buttonType;
     private JTextArea textArea;
@@ -28,14 +28,16 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
 
     public TypeGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setResizable(false);
-        setLocationRelativeTo(null);
+
+        setResizable(true);
 
         initializePanels();
 
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
