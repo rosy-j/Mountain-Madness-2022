@@ -15,7 +15,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     public static final int WIDTH = 1000;
     private int correctWordCount = 0;
     private int wpm = 0;
-    private JPanel typePanel;
+    JButton buttonType;
     private JTextArea textArea;
     private JLabel label;
     private JLabel scoreLabel;
@@ -84,6 +84,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     private void startState(State currentState) {
         switch(currentState) {
             case PREPARING:
+                buttonType.setEnabled(true);
                 countDown.setText("3");
                 break;
             case TYPING:
@@ -110,9 +111,10 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         countDown.setHorizontalAlignment(JTextField.CENTER);
         countDown.setFont(new Font("Serif", Font.PLAIN, 48));
         panel[0].add(countDown, BorderLayout.CENTER);
-        JButton buttonType = new JButton("Press me");
+        buttonType = new JButton("Press me");
         buttonType.setFont(new Font("Serif", Font.PLAIN, 35));
         buttonType.addActionListener((e) -> {
+            buttonType.setEnabled(false);
             final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.schedule(() -> {
                 countDown.setText("2");
