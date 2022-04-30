@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class TypeGUI extends JFrame implements ActionListener, KeyListener {
@@ -23,8 +24,9 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     private State currentState = State.PREPARING;
     private JPanel topLayerPanel;
     private JPanel[] panel = new JPanel[3];
+    private int countdownTime;
 
-    JTextField countDown;
+    private JTextField countDown;
 
     public TypeGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -88,6 +90,16 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
                 countDown.setText("3");
                 break;
             case TYPING:
+                countdownTime = 60;
+                label.setText("Type \"speed test\" as many times as you can in " + countdownTime + "s. Good Luck :)");
+                final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                ScheduledFuture<?> bruh = executorService.scheduleAtFixedRate(() -> {
+                    countdownTime--;
+                    label.setText("Type \"speed test\" as many times as you can in " + countdownTime + "s. Good Luck :)");
+                }, 1, 1, TimeUnit.SECONDS);
+                executorService.schedule(() -> {
+                    bruh.cancel(true);
+                }, 60, TimeUnit.SECONDS);
                 textArea.setText("");
                 textArea.setEditable(true);
                 break;
