@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TypeGUI extends JFrame implements ActionListener {
     public static final int HEIGHT = 1000;
@@ -40,11 +43,26 @@ public class TypeGUI extends JFrame implements ActionListener {
         panel[0] = new JPanel(new BorderLayout());
         JLabel labelPrep = new JLabel("TYPE FAST", SwingConstants.CENTER);
         panel[0].add(labelPrep, BorderLayout.NORTH);
+        JTextField countDown = new JTextField();
+        countDown.setText("3");
+        countDown.setEditable(false);
+        countDown.setFont(new Font("Serif", Font.PLAIN, 48));
+        panel[0].add(countDown, BorderLayout.CENTER);
         JButton buttonType = new JButton("Press me");
         buttonType.addActionListener((e) -> {
-            setState(State.TYPING);
+            final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.schedule(() -> {
+                countDown.setText("2");
+            }, 1, TimeUnit.SECONDS);
+            executorService.schedule(() -> {
+                countDown.setText("1");
+            }, 2, TimeUnit.SECONDS);
+            executorService.schedule(() -> {
+                setState(State.TYPING);
+            }, 3, TimeUnit.SECONDS);
+
         });
-        panel[0].add(buttonType, BorderLayout.CENTER);
+        panel[0].add(buttonType, BorderLayout.WEST);
         topLayerPanel.add(panel[0], State.PREPARING.toString());
 
 
