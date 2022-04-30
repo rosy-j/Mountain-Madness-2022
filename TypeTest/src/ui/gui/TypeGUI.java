@@ -38,18 +38,13 @@ public class TypeGUI extends JFrame implements ActionListener {
         add(topLayerPanel);
 
         panel[0] = new JPanel(new BorderLayout());
-        JLabel labelType = new JLabel("Type \"speed test\" as many times as you want,\n then hit ENTER", SwingConstants.CENTER);
-        labelType.setFont(new Font("Serif", Font.PLAIN, 35));
-        panel[0].add(labelType, BorderLayout.NORTH);
+        JLabel labelPrep = new JLabel("TYPE FAST", SwingConstants.CENTER);
+        panel[0].add(labelPrep, BorderLayout.NORTH);
         JButton buttonType = new JButton("Press me");
         buttonType.addActionListener((e) -> {
             setState(State.TYPING);
         });
-        panel[0].add(buttonType, BorderLayout.SOUTH);
-        JTextArea textArea = new JTextArea();
-        textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        textArea.setLineWrap(true);
-        panel[0].add(textArea, BorderLayout.CENTER);
+        panel[0].add(buttonType, BorderLayout.CENTER);
         topLayerPanel.add(panel[0], State.PREPARING.toString());
 
 
@@ -60,13 +55,18 @@ public class TypeGUI extends JFrame implements ActionListener {
 //        typePanel.add(label2);
 
         panel[1] = new JPanel(new BorderLayout());
-        JLabel labelOther = new JLabel("TYPE FAST", SwingConstants.CENTER);
-        panel[1].add(labelOther, BorderLayout.CENTER);
+        JLabel labelType = new JLabel("Type \"speed test\" as many times as you want,\n then hit ENTER", SwingConstants.CENTER);
+        labelType.setFont(new Font("Serif", Font.PLAIN, 35));
+        panel[1].add(labelType, BorderLayout.NORTH);
         JButton buttonOther = new JButton("hahahaha I'm in pain");
         buttonOther.addActionListener((e) -> {
             setState(State.FINISHED);
         });
-        panel[1].add(buttonOther, BorderLayout.CENTER);
+        panel[1].add(buttonOther, BorderLayout.SOUTH);
+        JTextArea textArea = new JTextArea();
+        textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        textArea.setLineWrap(true);
+        panel[1].add(textArea, BorderLayout.CENTER);
         topLayerPanel.add(panel[1], State.TYPING.toString());
 
         panel[2] = new JPanel(new BorderLayout());
