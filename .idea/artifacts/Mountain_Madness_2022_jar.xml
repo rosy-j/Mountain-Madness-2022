@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Mountain-Madness-2022:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mountain_Madness_2022_jar</output-path>
+    <root id="archive" name="Mountain-Madness-2022.jar">
+      <element id="module-output" name="Mountain-Madness-2022" />
+    </root>
+  </artifact>
+</component>
