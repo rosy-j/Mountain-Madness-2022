@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TypeGUI extends JFrame implements ActionListener {
+public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     public static final int HEIGHT = 1000;
     public static final int WIDTH = 1000;
     private int correctWordCount = 0;
@@ -27,7 +27,6 @@ public class TypeGUI extends JFrame implements ActionListener {
     private JPanel[] panel = new JPanel[3];
 
     JTextField countDown;
-    JTextArea textArea;
 
     public TypeGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,13 +39,15 @@ public class TypeGUI extends JFrame implements ActionListener {
 
         pack();
         setVisible(true);
+    }
+
+    void Timer() {
         while(elapsedTime < 60*1000) {
-            elapsedTime = System.currentTimeMillis()- startTime;
+            elapsedTime = System.currentTimeMillis() - startTime;
         }
         textArea.setEditable(false);
         parseTextArea();
         displayScore();
-
     }
 
     public void displayScore() {
@@ -62,16 +63,13 @@ public class TypeGUI extends JFrame implements ActionListener {
             return;
         }
         String[] splitText = text.split("\\s+");
-        for(int i = 1; i < splitText.length; i++) {
-            System.out.println("tring: " + splitText[i]);
+        for(int i = 0; i < splitText.length; i++) {
             if (i % 2 == 0) {
-                if (test.equalsIgnoreCase(splitText[i])) {
-                    System.out.println("Test: " + splitText[i]);
+                if (speed.equalsIgnoreCase(splitText[i])) {
                     correctWordCount++;
                 }
             } else {
-                if (speed.equalsIgnoreCase(splitText[i])) {
-                    System.out.println("speed: " + splitText[i]);
+                if (test.equalsIgnoreCase(splitText[i])) {
                     correctWordCount++;
                 }
             }
@@ -122,21 +120,16 @@ public class TypeGUI extends JFrame implements ActionListener {
             }, 2, TimeUnit.SECONDS);
             executorService.schedule(() -> {
                 setState(State.TYPING);
+                startTime = System.currentTimeMillis();
+                Timer();
             }, 3, TimeUnit.SECONDS);
 
         });
         panel[0].add(buttonType, BorderLayout.WEST);
         topLayerPanel.add(panel[0], State.PREPARING.toString());
 
-
-//        JLabel label2 = new JLabel("Type \"speed test\" as many times as you want,\n then hit ENTER"
-//                , SwingConstants.CENTER);
-//        label.setFont(new Font("Serif", Font.PLAIN, 20));
-//        label.setLocation(30, 30);
-//        typePanel.add(label2);
-
         panel[1] = new JPanel(new BorderLayout());
-        label = new JLabel("Type \"speed test\" as many times as you can in 60s. Press ENTER to start :)", SwingConstants.CENTER);
+        label = new JLabel("Type \"speed test\" as many times as you can in 60s. Good Luck :)", SwingConstants.CENTER);
         label.setFont(new Font("Serif", Font.PLAIN, 30));
 
         panel[1].add(label, BorderLayout.NORTH);
@@ -150,12 +143,12 @@ public class TypeGUI extends JFrame implements ActionListener {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.addKeyListener(this);
-        textArea.setEditable(false);
+//        textArea.setEditable(false);
         panel[1].add(textArea, BorderLayout.CENTER);
         scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
         scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
         panel[1].add(scoreLabel, BorderLayout.SOUTH);
-        topLayerPanel.add(typePanel);
+        topLayerPanel.add(panel[1], State.TYPING.toString());
 
         panel[2] = new JPanel(new BorderLayout());
         JLabel labelThird = new JLabel("Results", SwingConstants.CENTER);
@@ -178,10 +171,7 @@ public class TypeGUI extends JFrame implements ActionListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode()==(KeyEvent.VK_ENTER)) {
-            textArea.setEditable(true);
-            startTime = System.currentTimeMillis();
-        }
+
 
     }
 
