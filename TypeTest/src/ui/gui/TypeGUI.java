@@ -90,6 +90,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
             case TYPING:
                 textArea.setText("");
                 textArea.setEditable(true);
+                correctWordCount = 0;
                 break;
             case FINISHED:
                 displayScore();
