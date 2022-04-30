@@ -45,7 +45,7 @@ public class TypeGUI extends JFrame implements ActionListener {
         buttonType.addActionListener((e) -> {
             setState(State.TYPING);
         });
-        panel[0].add(buttonType, BorderLayout.CENTER);
+        panel[0].add(buttonType, BorderLayout.SOUTH);
         JTextArea textArea = new JTextArea();
         textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
         textArea.setLineWrap(true);
