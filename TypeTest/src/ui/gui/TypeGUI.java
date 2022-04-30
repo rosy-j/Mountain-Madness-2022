@@ -113,7 +113,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         panel[2].setBackground(backgroundColour);
         panel[2].setBorder(new EmptyBorder(50, 50, 50, 50));
         JLabel labelThird = new JLabel("Results", SwingConstants.CENTER);
-        labelThird.setFont(new Font("Serif", Font.PLAIN, 35));
+        labelThird.setFont(new Font("SansSerif", Font.BOLD, 50));
         labelThird.setForeground(textColour);
         labelThird.setBorder(null);
         panel[2].add(labelThird, BorderLayout.NORTH);
@@ -133,10 +133,10 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         buttonGOGOGO.setBorder(BorderFactory.createRaisedBevelBorder());
         buttonGOGOGO.setForeground(textColour);
         buttonGOGOGO.setBackground(buttonColourNotHovering);
-        buttonGOGOGO.setFont(new Font("Serif", Font.PLAIN, 35));
+        buttonGOGOGO.setFont(new Font("SansSerif", Font.PLAIN, 35));
         panel[2].add(buttonGOGOGO, BorderLayout.SOUTH);
         scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
+        scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 35));
         scoreLabel.setForeground(textColour);
         scoreLabel.setBorder(null);
         panel[2].add(scoreLabel, BorderLayout.CENTER);
@@ -146,7 +146,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     private void initializePanel1() {
         panel[1] = new JPanel(new BorderLayout());
         label = new JLabel("Type \"speed test\" as many times as you can in 60s. Good Luck :)", SwingConstants.CENTER);
-        label.setFont(new Font("Serif", Font.PLAIN, 30));
+        label.setFont(new Font("SansSerif", Font.BOLD, 30));
         panel[1].setBackground(backgroundColour);
         label.setForeground(textColour);
         panel[1].setBorder(new EmptyBorder(50, 50, 50, 50));
@@ -170,7 +170,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     private void initializePanel0() {
         panel[0] = new JPanel(new BorderLayout());
         JLabel labelPrep = new JLabel("TYPING SPEED TEST", SwingConstants.CENTER);
-        labelPrep.setFont(new Font("Serif", Font.PLAIN, 48));
+        labelPrep.setFont(new Font("SansSerif", Font.BOLD, 48));
 
         panel[0].setBackground(backgroundColour);
         labelPrep.setForeground(textColour);
@@ -180,7 +180,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         countDown.setText("3");
         countDown.setEditable(false);
         countDown.setHorizontalAlignment(JTextField.CENTER);
-        countDown.setFont(new Font("Serif", Font.PLAIN, 48));
+        countDown.setFont(new Font("SansSerif", Font.PLAIN, 48));
         countDown.setBackground(backgroundColour);
         countDown.setForeground(textColour);
         countDown.setBorder(null);
@@ -188,7 +188,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         panel[0].setBorder(new EmptyBorder(50, 50, 50, 50));
 
         buttonType = new JButton("Press me");
-        buttonType.setFont(new Font("Serif", Font.PLAIN, 35));
+        buttonType.setFont(new Font("SansSerif", Font.PLAIN, 35));
         buttonType.setBackground(buttonColourNotHovering);
         buttonType.setForeground(textColour);
         buttonType.setBorder(BorderFactory.createRaisedBevelBorder());
