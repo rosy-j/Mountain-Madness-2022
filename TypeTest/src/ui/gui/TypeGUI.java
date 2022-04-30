@@ -16,6 +16,9 @@ public class TypeGUI extends JFrame implements ActionListener {
     private JPanel topLayerPanel;
     private JPanel[] panel = new JPanel[3];
 
+    JTextField countDown;
+    JTextArea textArea;
+
     public TypeGUI() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -32,8 +35,22 @@ public class TypeGUI extends JFrame implements ActionListener {
 
     private void setState(State nextState) {
         currentState = nextState;
+        startState(currentState);
         CardLayout cl = (CardLayout) (topLayerPanel.getLayout());
         cl.show(topLayerPanel, currentState.toString());
+    }
+
+    private void startState(State currentState) {
+        switch(currentState) {
+            case PREPARING:
+                countDown.setText("3");
+                break;
+            case TYPING:
+                textArea.setText("");
+                break;
+            case FINISHED:
+                break;
+        }
     }
 
     public void startPanel() {
@@ -43,9 +60,10 @@ public class TypeGUI extends JFrame implements ActionListener {
         panel[0] = new JPanel(new BorderLayout());
         JLabel labelPrep = new JLabel("TYPE FAST", SwingConstants.CENTER);
         panel[0].add(labelPrep, BorderLayout.NORTH);
-        JTextField countDown = new JTextField();
+        countDown = new JTextField();
         countDown.setText("3");
         countDown.setEditable(false);
+        countDown.setHorizontalAlignment(JTextField.CENTER);
         countDown.setFont(new Font("Serif", Font.PLAIN, 48));
         panel[0].add(countDown, BorderLayout.CENTER);
         JButton buttonType = new JButton("Press me");
@@ -81,7 +99,7 @@ public class TypeGUI extends JFrame implements ActionListener {
             setState(State.FINISHED);
         });
         panel[1].add(buttonOther, BorderLayout.SOUTH);
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
         textArea.setLineWrap(true);
         panel[1].add(textArea, BorderLayout.CENTER);
@@ -106,4 +124,6 @@ public class TypeGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
     }
+
+
 }
