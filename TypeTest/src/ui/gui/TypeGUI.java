@@ -102,6 +102,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
 
         panel[0] = new JPanel(new BorderLayout());
         JLabel labelPrep = new JLabel("TYPE FAST", SwingConstants.CENTER);
+        labelPrep.setFont(new Font("Serif", Font.PLAIN, 48));
         panel[0].add(labelPrep, BorderLayout.NORTH);
         countDown = new JTextField();
         countDown.setText("3");
@@ -110,6 +111,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         countDown.setFont(new Font("Serif", Font.PLAIN, 48));
         panel[0].add(countDown, BorderLayout.CENTER);
         JButton buttonType = new JButton("Press me");
+        buttonType.setFont(new Font("Serif", Font.PLAIN, 35));
         buttonType.addActionListener((e) -> {
             final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.schedule(() -> {
@@ -124,7 +126,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
             }, 3, TimeUnit.SECONDS);
 
         });
-        panel[0].add(buttonType, BorderLayout.WEST);
+        panel[0].add(buttonType, BorderLayout.SOUTH);
         topLayerPanel.add(panel[0], State.PREPARING.toString());
 
         panel[1] = new JPanel(new BorderLayout());
@@ -136,6 +138,8 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         buttonOther.addActionListener((e) -> {
             setState(State.FINISHED);
         });
+        buttonOther.setBackground(Color.PINK);
+        buttonOther.setForeground(Color.WHITE);
         panel[1].add(buttonOther, BorderLayout.EAST);
         textArea = new JTextArea();
         textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
