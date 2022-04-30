@@ -1,2 +1,2 @@
-all: main.c
-	gcc -o out main.c
+all: ui.c
+	gcc -o out ui.c
