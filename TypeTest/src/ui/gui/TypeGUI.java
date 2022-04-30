@@ -1,11 +1,9 @@
 package ui.gui;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,12 +12,14 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
     public static final int HEIGHT = 1000;
     public static final int WIDTH = 1000;
     private int correctWordCount = 0;
-    private int wpm = 0;
-    JButton buttonType;
+    private JButton buttonType;
     private JTextArea textArea;
     private JLabel label;
     private JLabel scoreLabel;
-
+    private final Color backgroundColour = new Color(58, 62, 69);
+    private final Color buttonColourNotHovering = new Color(45, 47, 51);
+    private final Color buttonColourHovering = new Color(167, 176, 214);
+    private final Color textColour = Color.white;
     private State currentState = State.PREPARING;
     private JPanel topLayerPanel;
     private JPanel[] panel = new JPanel[3];
@@ -33,7 +33,7 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        startPanel();
+        initializePanels();
 
         pack();
         setVisible(true);
@@ -98,22 +98,100 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
         }
     }
 
-    public void startPanel() {
+    public void initializePanels() {
         topLayerPanel = new JPanel(new CardLayout());
         add(topLayerPanel);
+        initializePanel0();
+        initializePanel1();
+        initializePanel2();
+        CardLayout cl = (CardLayout)(topLayerPanel.getLayout());
+        cl.show(topLayerPanel, currentState.toString());
+    }
 
+    private void initializePanel2() {
+        panel[2] = new JPanel(new BorderLayout());
+        panel[2].setBackground(backgroundColour);
+        panel[2].setBorder(new EmptyBorder(50, 50, 50, 50));
+        JLabel labelThird = new JLabel("Results", SwingConstants.CENTER);
+        labelThird.setFont(new Font("Serif", Font.PLAIN, 35));
+        labelThird.setForeground(textColour);
+        labelThird.setBorder(null);
+        panel[2].add(labelThird, BorderLayout.NORTH);
+        JButton buttonGOGOGO = new JButton("Restart");
+        buttonGOGOGO.addActionListener((e) -> {
+            setState(State.PREPARING);
+        });
+        buttonGOGOGO.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                buttonGOGOGO.setBackground(buttonColourHovering);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                buttonGOGOGO.setBackground(buttonColourNotHovering);
+            }
+        });
+        buttonGOGOGO.setBorder(BorderFactory.createRaisedBevelBorder());
+        buttonGOGOGO.setForeground(textColour);
+        buttonGOGOGO.setBackground(buttonColourNotHovering);
+        buttonGOGOGO.setFont(new Font("Serif", Font.PLAIN, 35));
+        panel[2].add(buttonGOGOGO, BorderLayout.SOUTH);
+        scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
+        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
+        scoreLabel.setForeground(textColour);
+        scoreLabel.setBorder(null);
+        panel[2].add(scoreLabel, BorderLayout.CENTER);
+        topLayerPanel.add(panel[2], State.FINISHED.toString());
+    }
+
+    private void initializePanel1() {
+        panel[1] = new JPanel(new BorderLayout());
+        label = new JLabel("Type \"speed test\" as many times as you can in 60s. Good Luck :)", SwingConstants.CENTER);
+        label.setFont(new Font("Serif", Font.PLAIN, 30));
+        panel[1].setBackground(backgroundColour);
+        label.setForeground(textColour);
+        panel[1].setBorder(new EmptyBorder(50, 50, 50, 50));
+
+        panel[1].add(label, BorderLayout.NORTH);
+        textArea = new JTextArea();
+        textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.addKeyListener(this);
+
+        textArea.setBackground(backgroundColour);
+        textArea.setForeground(textColour);
+        textArea.setBorder(new EmptyBorder(40, 40, 40, 40));
+        textArea.setCaretColor(new Color(152, 145, 179));
+
+        panel[1].add(textArea, BorderLayout.CENTER);
+        topLayerPanel.add(panel[1], State.TYPING.toString());
+    }
+
+    private void initializePanel0() {
         panel[0] = new JPanel(new BorderLayout());
-        JLabel labelPrep = new JLabel("TYPE FAST", SwingConstants.CENTER);
+        JLabel labelPrep = new JLabel("TYPING SPEED TEST", SwingConstants.CENTER);
         labelPrep.setFont(new Font("Serif", Font.PLAIN, 48));
+
+        panel[0].setBackground(backgroundColour);
+        labelPrep.setForeground(textColour);
+
         panel[0].add(labelPrep, BorderLayout.NORTH);
         countDown = new JTextField();
         countDown.setText("3");
         countDown.setEditable(false);
         countDown.setHorizontalAlignment(JTextField.CENTER);
         countDown.setFont(new Font("Serif", Font.PLAIN, 48));
+        countDown.setBackground(backgroundColour);
+        countDown.setForeground(textColour);
+        countDown.setBorder(null);
         panel[0].add(countDown, BorderLayout.CENTER);
+        panel[0].setBorder(new EmptyBorder(50, 50, 50, 50));
+
         buttonType = new JButton("Press me");
         buttonType.setFont(new Font("Serif", Font.PLAIN, 35));
+        buttonType.setBackground(buttonColourNotHovering);
+        buttonType.setForeground(textColour);
+        buttonType.setBorder(BorderFactory.createRaisedBevelBorder());
         buttonType.addActionListener((e) -> {
             buttonType.setEnabled(false);
             final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -129,45 +207,17 @@ public class TypeGUI extends JFrame implements ActionListener, KeyListener {
             }, 3, TimeUnit.SECONDS);
 
         });
+        buttonType.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                buttonType.setBackground(buttonColourHovering);
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                buttonType.setBackground(buttonColourNotHovering);
+            }
+        });
         panel[0].add(buttonType, BorderLayout.SOUTH);
         topLayerPanel.add(panel[0], State.PREPARING.toString());
-
-        panel[1] = new JPanel(new BorderLayout());
-        label = new JLabel("Type \"speed test\" as many times as you can in 60s. Good Luck :)", SwingConstants.CENTER);
-        label.setFont(new Font("Serif", Font.PLAIN, 30));
-
-        panel[1].add(label, BorderLayout.NORTH);
-        JButton buttonOther = new JButton("hahahaha I'm in pain");
-        buttonOther.addActionListener((e) -> {
-            setState(State.FINISHED);
-        });
-        buttonOther.setBackground(Color.PINK);
-        buttonOther.setForeground(Color.WHITE);
-        panel[1].add(buttonOther, BorderLayout.EAST);
-        textArea = new JTextArea();
-        textArea.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.addKeyListener(this);
-//        textArea.setEditable(false);
-        panel[1].add(textArea, BorderLayout.CENTER);
-        topLayerPanel.add(panel[1], State.TYPING.toString());
-
-        panel[2] = new JPanel(new BorderLayout());
-        JLabel labelThird = new JLabel("Results", SwingConstants.CENTER);
-        panel[2].add(labelThird, BorderLayout.NORTH);
-        JButton buttonGOGOGO = new JButton("Your time is TIME");
-        buttonGOGOGO.addActionListener((e) -> {
-            setState(State.PREPARING);
-        });
-        panel[2].add(buttonGOGOGO, BorderLayout.CENTER);
-        scoreLabel = new JLabel("Score: ", SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Serif", Font.PLAIN, 35));
-        panel[2].add(scoreLabel, BorderLayout.SOUTH);
-        topLayerPanel.add(panel[2], State.FINISHED.toString());
-
-        CardLayout cl = (CardLayout)(topLayerPanel.getLayout());
-        cl.show(topLayerPanel, currentState.toString());
     }
 
     @Override
